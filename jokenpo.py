@@ -1,50 +1,75 @@
 import random
 import os
-import time
 
-# r:pedra, t:tesoura, p:papel
+# r = pedra, p  = papel t = tesoura
+
+possiveis = ['r','p','t']
+
 v_pc = 0
-v_user = 0
+v_user = 0 
+partidas = 0
+empates = 0
 
 while True:
-    start = input("Aperte C para continuar: \n").lower()
-    if start != "c":
+    print('*'*49)
+    print("*"*20+"JO-KEN-PO"+"*"*20)
+    print('*'*49)
+    print(f"Vitorias usuario : {v_user}")
+    print(f"Vitorias android : {v_pc}")
+    print(f"Partidas jogadas : {partidas}")
+    print(f"Empates : {empates}")
+    print('*'*49)
+    
+    user = input("r -> pedra, p -> papel, t -> tesoura, x- >sair: ").lower()
+    
+    if user in possiveis:
+        choice_pc = random.randint(0,2)
+        if user == possiveis[choice_pc]:
+            print("Empate.")
+            empates +=1
+            partidas += 1
+            input("Enter")
+            os.system('cls')
+        elif user == "r" and possiveis[choice_pc] == 't':
+                print(f"Vitoria do usuario {user} x {possiveis[choice_pc]}")
+                v_user += 1
+                partidas += 1
+                input("Enter")
+                os.system('cls')
+        elif user == "p" and possiveis[choice_pc] == 'r':
+                print(f"Vitoria do usuario {user} x {possiveis[choice_pc]}")
+                v_user += 1
+                partidas += 1
+                input("Enter")
+                os.system('cls')
+        elif user == "t" and possiveis[choice_pc] == 'p':
+                print(f"Vitoria do usuario {user} x {possiveis[choice_pc]}")
+                v_user += 1
+                partidas += 1
+                input("Enter")
+                os.system('cls')
+        else:
+            print(f"Vitoria do Android {possiveis[choice_pc]} X {user}")
+            v_pc += 1
+            partidas += 1
+            input("Enter")
+            os.system('cls')
+            
+                
+    elif user == "x":
         break
-    
-    print("Jokenpo...\n")
-    op = input("r ->pedra, t -> tesoura, p -> papel\n").lower()
-    movimentos_pc = ["r","t","p"]
-    choice_pc = random.randint(0,2)
-    if op == movimentos_pc[choice_pc]:
-        print("Empate")
-        time.sleep(4)
-        os.system("cls")
-    elif op == "r" and movimentos_pc[choice_pc] == "t":
-        print("Vitoria do usuario!")
-        print(f"{op} ganha de {movimentos_pc[choice_pc]}")
-        v_user +=1
-        time.sleep(4)
-        os.system("cls")
-    elif op == "t" and movimentos_pc[choice_pc] == "p":
-        print("Vitoria do usuario!")
-        print(f"{op} ganha de {movimentos_pc[choice_pc]}")
-        v_user +=1
-        time.sleep(4)
-        os.system("cls")
-    elif op == "p" and movimentos_pc[choice_pc] == "r":
-        print("Vitoria do usuario!")
-        print(f"{op} ganha de {movimentos_pc[choice_pc]}")
-        v_user +=1
-        time.sleep(4)
-        os.system("cls")
     else:
-        print("Vitoria do PC!")
-        print(f"{movimentos_pc[choice_pc]} ganha de {op}")
-        v_pc +=1
-        time.sleep(4)
-        os.system("cls")
+        print("deu ruim")
+        break
+os.system('cls')
+print('*'*49)
+print("*"*20+"JO-KEN-PO"+"*"*20)
+print('*'*49)  
+print("Resultado da partida.")
+print(f"Vitorias usuario : {v_user}")
+print(f"Vitorias android : {v_pc}")
+print(f"Empates : {empates}")
+print(f"Partidas jogadas : {partidas}")
 
-    
-print(f"Vitoria PC \n{v_pc}")
-print(f"Vitoria usuario \n{v_user}")
-print("goodby!")
+print("Goodby.")
+
