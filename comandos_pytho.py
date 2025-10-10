@@ -111,4 +111,157 @@ print(valor_max)
 
 #filter
 impares = list(filter(lambda x : x%2!=0, num))
+
 print(impares)
+
+
+#listas
+frutas = ["banana","maça","pera"]
+print(frutas)
+frutas02 = []
+print(frutas02)
+letras = list("PYTHON")
+print(letras)
+numeros = list(range(10))
+print(numeros)
+carros02 = ["Ferrari","F8",4200000,2020,2900,"São Paulo", True]
+print(carros02)
+
+
+# matriz
+matriz = [[1,"a",2],
+          ["b",3,4],
+          [6,5,"c"]]
+
+print(matriz[0])
+print(matriz[0][1])
+print(matriz[2][2])
+print(matriz[-1][-1])
+
+#acessando via for
+for k in matriz:
+    for v in k:
+        print(v)
+
+#Slice
+print(letras[2:])
+print(letras[:2])
+print(letras[::-1])
+
+
+#Lista de trás pra frente
+nome = list("ARAUJO")
+print(nome[::-1])
+
+#append()
+numeros.append(11)
+print(numeros)
+
+#clear()
+lista = ['q',1,3,5,'df',True]
+print(lista)
+lista.clear()
+print(lista)
+
+#copy()
+lista = [1,2,3,4,5,6,7,8]
+print("Lista original")
+print(lista)
+lista02 = lista.copy()
+print("Lista copiada")
+print(lista02)
+lista.append(10)
+print("Lista original com append de 10")
+print(lista)
+lista02.append(12)
+print("Lista copiada com append de 12")
+print(lista02)
+
+
+
+#count()
+cores = ['vermelho','amarelo','azul','verde','vermelho','verde','vermelho','amarelo','verde']
+print(cores.count("vermelho"))
+print(cores.count("azul"))
+print(cores.count("verde"))
+
+# Usando o count em uma estrutura condicional
+if cores.count("azul") >= 3:
+    print("Tem mais que 3")
+else:
+    print("Tem menos")
+
+# extend()
+cores02 = ['vermelho','amarelo','azul','verde','vermelho','verde','vermelho','amarelo','verde']
+print('Cores antes do extend')
+print(cores02)
+novas = ['roxo','preto']
+cores02.extend(novas)
+print('Cores após do extend')
+print(cores02)
+
+#index() passa a primeira ocorrencia
+cores02 = ['vermelho','amarelo','azul','verde','vermelho','verde','vermelho','amarelo','verde']
+cores02.index('amarelo')
+
+#pop() sem passar o padão tira sempre o ultimo elemento como em uma pilha
+print('Antes do pop')
+print(cores02)
+cores02.pop()
+print('Depois do pop, sem passar o paramentro, sai o verde do final')
+print(cores02)
+cores02.pop(2)
+print('Depois do pop, passando o paramentro com base no index, sai a cor azul')
+print(cores02)
+
+
+#remove() remove passando o elemento em si, não pelo index, remove apenas a primeira ocorrencia
+cores02 = ['vermelho','amarelo','azul','verde','vermelho','verde','vermelho','amarelo','verde']
+print('Antes do remove')
+print(cores02)
+cores02.remove('amarelo')
+print('Depois do remove')
+print(cores02)
+
+#removendo mais de um item da lista com o remove
+cores02 = ['vermelho','amarelo','azul','verde','vermelho','verde','vermelho','amarelo','verde','vermelho']
+quant = cores02.count('vermelho')
+
+
+while quant > 0:
+    cores02.remove('vermelho')
+    quant -= 1
+
+print("cores sem os vermelhos")
+print(cores02)
+
+#reverse() serve para transpor a lista de trás pra frente como no slice[::-1]
+print("Lista de cores normal")
+print(cores02)
+print(cores02.reverse()) #retorna none porque modifica a lista original
+print(cores02)
+
+# sort() serve para onder a lista
+lista = ['prstuv','ab','abc','jlmn']
+print(lista.sort())#retorna none porque modifica a lista original
+print(lista)
+
+#parametros dentro do sort()
+lingua = ['python','c','java','c#','ruby','javaScript','cobol']
+#sort normal
+print(lingua)
+lingua.sort()
+print(lingua)
+#reverse
+lingua.sort(reverse=True)
+print(lingua)
+#key junto com lambda
+lingua.sort(key=lambda x:len(x))
+print(lingua)
+#key junto com lambda e reverse
+lingua.sort(key=lambda x:len(x), reverse=True)
+print(lingua)
+
+#podemos usar o sorted() função built-in do python
+lingua = ['python','c','java','c#','ruby','javaScript','cobol']
+sorted(lingua, key=lambda x:len(x), reverse=True)
