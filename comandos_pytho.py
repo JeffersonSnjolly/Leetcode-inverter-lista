@@ -464,3 +464,368 @@ alterando_lista(lista)
 
 alterando_lista2(lista)
 
+
+# Decoradores
+# Funções em python são objetos e podem ser tratadas como funções de primeir linha
+# Sendo chamada por outras funções sem uso caracteristicos dos parenteses ()
+# inner function são funções dentro de funções 
+# podemos retornar funçoes
+
+#ex
+def calcular(operador):
+    def somar(a,b):
+        r = a+b
+        return r
+    def subtrair(a,b):
+        r = a-b
+        return r
+    if operador == "+":
+        return somar # retorna a função
+    else:
+        return subtrair
+    
+print(calcular("-")(4,3)) #precisamos passar o parametro adicional de "somar" ou "subtrair" no caso com os parenteses adicionais.
+
+# Função de primeira
+def dizer_oi(nome):
+    return f"Oi {nome}"
+
+def incentivando(nome):
+    return f"oi {nome}, continue estudando python que um dia vai dar certo."
+
+def manda_mensagem(funcao, nome):
+    return funcao(nome)
+
+print(manda_mensagem(dizer_oi, "Paula"))
+print(manda_mensagem(incentivando, "Bia"))
+
+# inner function
+def externa():
+    print("Esrevendo na função externa.")
+    
+    def interna01():
+        print("Esrevendo a interna01")
+        
+    def interna02():
+        print("Esrevendo a interna01")
+    
+    interna01()
+    interna02()
+    
+externa()
+
+# Primeiro decorador
+def decorador(funcao):
+    def envelope():
+        print("Faz algo antes")
+        funcao()
+        print("Faz algo depois")
+        
+    return envelope #sempre sem parentes
+
+def ola_mundo():
+    print("Olá mundo.")
+    
+ola_mundo = decorador(ola_mundo) # usando o decorador
+ola_mundo()
+
+# Usando o açucar sintático o python podemos @
+
+def decorador(funcao):
+    def envelope():
+        print("Faz algo antes")
+        funcao()
+        print("Faz algo depois")
+        
+    return envelope #sempre sem parentes
+
+@decorador #Colocando o @ usamos o decorador
+def ola_mundo():
+    print("Olá mundo.")
+    
+#ola_mundo = decorador(ola_mundo) # usando o decorador
+ola_mundo()
+
+# Decorador com parametro/argumento
+def duplica(funcao):
+    def envelope(*args, **kwargs):
+        funcao(*args, **kwargs)
+        funcao(*args, **kwargs)
+    return envelope
+
+@duplica
+def tecnologia(nome):
+    print(f"Estou aprendendo a programar em {nome}")
+    
+    
+tecnologia("Python")
+
+#retornando dentro do envelop
+def retorna_msn(funcao):
+    def envelope(*args, **kwargs):
+        aux = funcao(*args, **kwargs)
+        return aux # criando esse retorno podemos dar um retorno na função decorada
+    return envelope
+    
+@retorna_msn
+def nova_msn(tec):
+    return f"Estou estudado {tec.upper()}"
+
+linguagen = nova_msn("python")
+print(linguagen)
+
+print(nova_msn.__name__)
+
+# Intropecção, retorona o nome verdadeiro da funão decorocada, e não o envelope
+import functools #precisamos fazer o import
+
+def retorna_filme(funcao):
+    @functools.wraps(funcao) # Chame esse decorador para manter o nome da função decorada
+    def envelope(*args, **kwargs):
+        aux = funcao(*args, **kwargs)
+        return aux # criando esse retorno podemos dar um retorno na função decorada
+    return envelope
+    
+@retorna_filme
+def novo_filme(nome):
+    return f"Estou assistindo o {nome.title()}, essa noite."
+
+filme01 = novo_filme("gladiador")
+print(filme01)
+
+print(novo_filme.__name__)
+
+
+#iteradores 
+#interador é um objeto que contém um número contável de valores que podem ser iterados.
+# dois metodos especiais __iter__() e __next__()
+#criando um interavel
+
+class Meu_iteravel:
+    def __init__(self, numeros : list[int]):
+        self.numeros = numeros
+        self.contador = 0
+        
+    def __iter__(self):
+        return self
+    def __next__(self):
+        try:
+            num = self.numeros[self.contador]
+            self.contador +=1
+            return num *2
+        except IndexError:
+            raise StopIteration #Sempre ter o stop interation.
+        
+        
+
+for i in Meu_iteravel([1,2,3,4]):
+    print(i)
+# Geradores são tipos especiais de iteradores
+# Não armazenam todos os seus valores na memoria
+# São definidos usando funções regulares
+# Para retorna os valores não utilizam o "return" e sim o "yield"
+# Geradores podem colheitar elemento por elemento e quardar em memória sem precisar,
+# Alocar toda a base ou lista.
+
+# Característica de geradores
+# Uma vez que o item é consumido, ele é esquecido e não pode mais ser acessado
+# O estado interno de um gerador é mantido entre chamadas
+# A execução de um gerador é pausada na declaração do yield
+# e retornada dai na próxima vez que ele for chamado 
+
+
+# ex
+
+def meu_gerador(*numeros):
+    for num in numeros:
+        yield num *2
+    
+for i in meu_gerador(1,2,3,4,5):
+    print(i)
+
+
+#manipulando arquivos
+
+"""Tipos de aberturas de arquivos"""
+
+# Para ler (read)
+
+file = open("texto01.txt",'r')
+aux = file.read()
+file.close()
+print(aux)
+
+# Para escrever (write)
+
+texto = "Estou cada dia mais melhorando em programação."
+file = open("texto01.txt", "w")
+file.write(texto)
+file.close() 
+
+#lendo novamente
+
+file = open("texto01.txt",'r')
+aux = file.read()
+file.close()
+print(aux)
+
+# Para realizar um append
+
+novo_texto = "\nEstudo de python continuo, vai ajudar muito."
+file = open("texto01.txt","a")
+file.write(novo_texto)
+file.close()
+
+#lendo novamente
+
+file = open("texto01.txt",'r')
+aux = file.read()
+file.close()
+print(aux)
+
+# Um novo append
+
+novo_texto = "\nEssa terceira linha é um loren."
+file = open("texto01.txt","a")
+file.write(novo_texto)
+file.close()
+
+
+#lendo novamente como readline
+
+file = open("texto01.txt",'r')
+aux = file.readline() #ler uma linha por vez, da pra usar o for junto ao len(file)
+file.close()
+print(aux)
+
+#lendo novamente com readlines
+
+file = open("texto01.txt",'r')
+aux = file.readlines() # Transfoma cada linha em cada posição de uma lista.
+file.close()
+print(aux)
+
+# Gereanciando arquivos
+import os
+import shutil
+from pathlib import Path #Para conseguir o caminho dinamico
+
+#print(__file__) retorna o caminho do diretorio
+#ROOT_PATH = Path(__file__) não funciona no notebook
+#print(ROOT_PATH.parent)
+
+#Criar um diretório
+#os.mkdir("exemplo")
+
+#Renomear um arquivo
+#os.rename("old_name.txt", "new_name.txt")
+
+#removendo um arquivo
+#os.remove("texto.txt")
+
+#mover um arquivo
+#shutil.move("soucer.txt", "destination.txt")
+
+
+#EX
+# ROOT_PATH = Path(__file__).parent
+
+
+#os.mkdir(ROOT_PATH / "novo-diretorio")
+
+# file = open(ROOT_PATH / "novo_arquivo.txt", "w")
+# file.close()
+
+# os.rename(ROOT_PATH / "novo_arquivo.txt", ROOT_PATH / "alterado.txt")
+
+#os.remove(ROOT_PATH / "alterado.txt")
+
+#shutil.move(ROOT_PATH / "novo_arquivo.txt", ROOT_PATH / "novo-diretorio" / "novo_arquivo.txt")
+
+# Tratamento de execeções
+
+# Execeções comuns
+
+#FileNotFoundError -> se não for localizado.
+
+#PermissionError -> quando não tiver permissão.
+
+#IOError -> Erro em geral de entrada e saida
+
+#UnicodeDecodeError -> ao tentar decodificar um arquivo mal codificado
+
+#UnicodeEncodeError -> ao tentar codificar
+
+#IsADirectoryError -> ao tentar abrir um diretório ao invez de um arquivo.
+
+#Teste de arquivo 01
+
+try:
+    file = open("nãoExiste.txt", "r")
+    file.close()
+except FileNotFoundError as exc:
+    print(f"Arquivo não encontrado {exc}")
+except Exception as exc:
+    print(f"Algo de errado não está certo")
+
+#Teste de arquivo 02
+try:
+    file = open("texto01.txt", "r")
+    aux = file.read()
+    file.close()
+    print(aux)
+except FileNotFoundError:
+    print("Arquivo não encontrado")
+
+# Boas práticas
+
+# A declaração do with garante que o arquivo será fechado mesmo com execeções.
+
+# ex: with open("arquivo.txt", "r") as arq:
+            #aux = arq.read()
+            
+            
+import os
+try:
+    with open(os.path.join("ttexto01.txt"), 'r') as arq:
+        print(f"TEXTO\n{arq.read()}")
+except IOError as exc:
+    print(f"Tipo do erro: {exc}")
+
+# encoding="utf-8" garante a codificação correta e garante o acentos epecias.
+try:
+    with open(os.path.join("texto_utf8.txt"), 'w', encoding="utf-8") as arq:
+        arq.write("Esse texto tem umolá mundo, e não atoa a união com varios acentos em palavras.")
+except IOError as exc:
+    print(f"Tipo de erro: {exc}")
+    
+
+# Gera esse UnicodeDecodeError
+try:
+    with open(os.path.join("texto_utf8.txt"), 'r', encoding="ascii") as arq:
+        arq.read()
+except IOError as exc:
+    print(f"Tipo de erro: {exc}")
+except UnicodeDecodeError as exc:
+    print(f"Tipo de erro: {exc}")
+
+# CSV
+import csv
+try:
+    with open(os.path.join("arquivo.csv"), 'w',  newline='', encoding="utf-8") as arq: # sempre usar o newline em arq CSV
+        escritor = csv.writer(arq)
+        escritor.writerow(["id","nome"])
+        escritor.writerow(['1','Maria'])
+        escritor.writerow(['2','João'])
+except IOError as exc:
+    print(f"Tipo de Erro: {exc}")
+
+try:
+    with open(os.path.join("arquivo.csv"), 'r',encoding="utf-8") as arq:
+        leitor = csv.reader(arq)
+        for row in leitor:
+            print(row)
+except IOError as exc:        
+    print(f"Tipo de Erro: {exc}")
+
+
